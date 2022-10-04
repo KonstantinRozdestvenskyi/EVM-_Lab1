@@ -41,7 +41,7 @@ unsigned getUInt()//ввод unsigned int с проверкой
 		cout << "введите целое неотрицательное число (в случае введения вещественного числа оно округлиться в меньшую сторону!): " << '\n';
 		long long int x;//объявляем lon long int, чтобы предотвратить ввод отрицательных и слишком больших
 		cin >> x;
-		if (x < 0 || x > 4294967295) {
+		if (x < 0 || x > 4294967295 || cin.fail()) {
 			cin.clear(); // возвращаем нас в "нормальный" режим работы
 			ignoreLine();     // и удаляем неверные входные данные
 			cout << "Неверный ввод. Повторите попытку.\n";
@@ -60,7 +60,14 @@ int main() {
 	setlocale(LC_ALL, "RUS");
 	cout << "Выберите тип данных: " << '\n' << "1 - unsigned int" << '\n' << "2 - double" << '\n' << "3 - завершить работу программы" << '\n';
 	int choose_type;
-	cin >> choose_type;
+	while (1) {
+		cin >> choose_type;
+		if (choose_type == 1 || choose_type == 2 || choose_type == 3) {
+			break;
+		}
+		else
+			cout << "некоректная команда. Повторите запрос." << '\n';
+	}
 	switch (choose_type){
 	case 1: {
 		unsigned x;
@@ -68,12 +75,26 @@ int main() {
 		auto bin1 = bitset<32>(x);
 		cout << "двоичное представление введённоcго числа: " << '\n';
 		cout << bin1 << '\n';
-		unsigned number, quantity, value;
+		int number, quantity, value;
 		while (1) {
-			cout << "введите номер младшего изменяемого бита: " << '\n';
-			cin >> number;
-			cout << "введите количество изменяемых битов: " << '\n';
-			cin >> quantity;
+			while (1) {
+				cout << "введите номер младшего изменяемого бита: " << '\n';
+				cin >> number;
+				if (number < 0 || number > 31) {
+					cout << "некоректный номер. Повторите ввод." << '\n';
+				}
+				else
+					break;
+			}
+			while (1) {
+				cout << "введите количество изменяемых битов: " << '\n';
+				cin >> quantity;
+				if (quantity < 0 || quantity > 32) {
+					cout << "некоректное количество. Повторите ввод." << '\n';
+				}
+				else
+					break;
+			}
 			if (number + quantity > 32) {
 				cout << "сумма номера младшего изменяемого бита и их количества превышают количество бита в числе." << '\n'
 					<< "повторите ввод номера и/или количества." << '\n';
@@ -82,8 +103,15 @@ int main() {
 				break;
 		}
 		cout << "введите новое состояние каждого бита: " << '\n';
-		for (unsigned i = 0; i < quantity; i++) {
-			cin >> value;
+		for (int i = 0; i < quantity; i++) {
+			while (1) {
+				cin >> value;
+				if (value == 0 || value == 1) {
+					break;
+				}
+				else
+					cout << "неверное состояние бита. Повторите ввод." << '\n';
+			}
 			if (value == 1)
 				bin1.set(number);
 			else
@@ -100,12 +128,26 @@ int main() {
 		auto bin1 = bitset<64>(*(unsigned long long*)(&x));
 		cout << "двоичное представление введённоcго числа: " << '\n';
 		cout << bin1 << '\n';
-		unsigned number, quantity, value;
+		int number, quantity, value;
 		while (1) {
-			cout << "введите номер младшего изменяемого бита: " << '\n';
-			cin >> number;
-			cout << "введите количество изменяемых битов: " << '\n';
-			cin >> quantity;
+			while (1) {
+				cout << "введите номер младшего изменяемого бита: " << '\n';
+				cin >> number;
+				if (number < 0 || number > 63) {
+					cout << "некоректный номер. Повторите ввод." << '\n';
+				}
+				else
+					break;
+			}
+			while (1) {
+				cout << "введите количество изменяемых битов: " << '\n';
+				cin >> quantity;
+				if (quantity < 0 || quantity > 64) {
+					cout << "некоректное количество. Повторите ввод." << '\n';
+				}
+				else
+					break;
+			}
 			if (number + quantity > 64) {
 				cout << "сумма номера младшего изменяемого бита и их количества превышают количество бита в числе." << '\n'
 					<< "повторите ввод номера и/или количества." << '\n';
@@ -115,7 +157,14 @@ int main() {
 		}
 		cout << "введите новое состояние каждого бита: " << '\n';
 		for (unsigned i = 0; i < quantity; i++) {
-			cin >> value;
+			while (1) {
+				cin >> value;
+				if (value == 0 || value == 1) {
+					break;
+				}
+				else
+					cout << "неверное состояние бита. Повторите ввод." << '\n';
+			}
 			if (value == 1)
 				bin1.set(number);
 			else
